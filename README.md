@@ -1,0 +1,8 @@
+# Android App Sample (ViewModel + LiveData + Kotlin + Retrofit + Dependency Injection (Hilt), Coroutine) - News App
+
+### Project Description
+In this project I developed a news Android Application with MVVM architecture. The UI is very simple as you can see in the above screenshot. There is multiple categories that the user can choose from like business, sports, technology etc... 
+
+### InShort API
+I used [Unofficial InShorts News API](https://github.com/cyberboysumanjay/Inshorts-News-API) for collecting news information.
+
