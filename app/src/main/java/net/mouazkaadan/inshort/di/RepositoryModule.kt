@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import net.mouazkaadan.inshort.network.Api
 import net.mouazkaadan.inshort.repository.NewsRepository
 import javax.inject.Singleton
 

@@ -1,7 +1,7 @@
 package net.mouazkaadan.inshort.repository
 
 import androidx.lifecycle.MutableLiveData
-import net.mouazkaadan.inshort.di.Api
+import net.mouazkaadan.inshort.network.Api
 import net.mouazkaadan.inshort.ui.newsPage.model.NewsResponseModel
 import javax.inject.Inject
 import javax.inject.Singleton

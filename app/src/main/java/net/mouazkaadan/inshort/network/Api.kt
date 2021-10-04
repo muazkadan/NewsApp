@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.di
+package net.mouazkaadan.inshort.network
 
 import net.mouazkaadan.inshort.ui.newsPage.model.NewsResponseModel
 import retrofit2.http.GET

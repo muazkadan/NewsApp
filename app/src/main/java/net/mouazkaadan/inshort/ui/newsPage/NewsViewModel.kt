@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.mouazkaadan.inshort.repository.NewsRepository
@@ -15,15 +16,18 @@ class NewsViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
-    var newsResponse: MutableLiveData<NewsResponseModel>? = null
+    private var _newsResponse = newsRepository.newsData
 
-    init {
-        newsResponse = newsRepository.newsData
-    }
+    val newsResponse: MutableLiveData<NewsResponseModel>
+        get() = _newsResponse
 
     fun getNews(category: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             newsRepository.getNews(category)
         }
+    }
+
+    private val exceptionHandler = CoroutineExceptionHandler{ _, throwable ->
+        throwable.printStackTrace()
     }
 }
