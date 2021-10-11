@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import net.mouazkaadan.inshort.base.OnItemClickListener
 import net.mouazkaadan.inshort.databinding.NewsFragmentBinding
 import net.mouazkaadan.inshort.ui.newsPage.model.Data
 import net.mouazkaadan.inshort.ui.newsPage.model.NewsAdapter
+import net.mouazkaadan.inshort.utils.showToast
 
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
@@ -59,9 +61,14 @@ class NewsFragment : Fragment() {
 
         viewBinding.newsRv.adapter = adapter
 
-        viewModel.newsResponse?.observe(viewLifecycleOwner, {
+        viewModel.newsResponse.observe(viewLifecycleOwner, {
             viewBinding.progressBar.visibility = View.GONE
             adapter.setNewsList(it.data)
+        })
+
+        viewModel.errorMessage.observe(viewLifecycleOwner, {
+            requireContext().showToast(it)
+            findNavController().navigateUp()
         })
     }
 }
