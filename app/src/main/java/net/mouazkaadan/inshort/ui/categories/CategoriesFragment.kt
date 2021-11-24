@@ -6,21 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import net.mouazkaadan.inshort.R
-import net.mouazkaadan.inshort.base.OnItemClickListener
 import net.mouazkaadan.inshort.databinding.CategoriesFragmentBinding
 import net.mouazkaadan.inshort.ui.categories.model.CategoryAdapter
 import net.mouazkaadan.inshort.ui.categories.model.CategoryModel
+import net.mouazkaadan.inshort.ui.categories.model.OnCategoryClickListener
 
 @AndroidEntryPoint
 class CategoriesFragment : Fragment() {
 
     private lateinit var viewBinding: CategoriesFragmentBinding
-    private lateinit var viewModel: CategoriesViewModel
+    val viewModel by viewModels<CategoriesViewModel> ()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +35,7 @@ class CategoriesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CategoriesViewModel::class.java)
+
         viewBinding.viewModel = viewModel
 
         viewBinding.categoriesRv.layoutManager =
@@ -43,7 +43,7 @@ class CategoriesFragment : Fragment() {
 
         viewBinding.categoriesRv.adapter = CategoryAdapter(
             viewModel.categoriesList,
-            object : OnItemClickListener<CategoryModel> {
+            object : OnCategoryClickListener<CategoryModel> {
                 override fun onItemClick(item: CategoryModel?) {
                     findNavController().navigate(
                         CategoriesFragmentDirections.actionCategoriesFragmentToNewsFragment(

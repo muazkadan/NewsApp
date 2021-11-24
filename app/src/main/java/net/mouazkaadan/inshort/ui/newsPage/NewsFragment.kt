@@ -7,24 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import net.mouazkaadan.inshort.R
-import net.mouazkaadan.inshort.base.OnItemClickListener
 import net.mouazkaadan.inshort.databinding.NewsFragmentBinding
 import net.mouazkaadan.inshort.ui.newsPage.model.Data
 import net.mouazkaadan.inshort.ui.newsPage.model.NewsAdapter
+import net.mouazkaadan.inshort.ui.newsPage.model.OnNewsClickListener
+import net.mouazkaadan.inshort.utils.asUri
 import net.mouazkaadan.inshort.utils.showToast
 
 @AndroidEntryPoint
 class NewsFragment : Fragment() {
 
     private lateinit var viewBinding: NewsFragmentBinding
-    private lateinit var viewModel: NewsViewModel
+    val viewModel by viewModels<NewsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +40,6 @@ class NewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
         viewBinding.viewModel = viewModel
 
         navArgs<NewsFragmentArgs>().value.apply {
@@ -47,8 +47,8 @@ class NewsFragment : Fragment() {
         }
 
         viewBinding.newsRv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        val adapter = NewsAdapter(object : OnItemClickListener<Data> {
-            override fun onItemClick(item: Data?) {
+        val adapter = NewsAdapter(object : OnNewsClickListener<Data> {
+            override fun onShareClick(item: Data?) {
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_TEXT, item!!.readMoreUrl)
@@ -56,6 +56,11 @@ class NewsFragment : Fragment() {
                 }
                 val shareIntent = Intent.createChooser(sendIntent, null)
                 startActivity(shareIntent)
+            }
+
+            override fun onItemClick(item: Data?) {
+                val browserIntent = Intent(Intent.ACTION_VIEW, item!!.readMoreUrl.asUri())
+                requireActivity().startActivity(browserIntent, null)
             }
         })
 

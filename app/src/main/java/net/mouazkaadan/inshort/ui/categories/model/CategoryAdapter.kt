@@ -3,10 +3,9 @@ package net.mouazkaadan.inshort.ui.categories.model
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import net.mouazkaadan.inshort.base.OnItemClickListener
 import net.mouazkaadan.inshort.databinding.CategoryItemListBinding
 
-class CategoryAdapter(var list: List<CategoryModel>, val listener: OnItemClickListener<CategoryModel>) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(var list: List<CategoryModel>, val listener: OnCategoryClickListener<CategoryModel>) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val binding = CategoryItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)

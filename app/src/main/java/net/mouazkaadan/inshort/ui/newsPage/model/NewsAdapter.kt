@@ -1,14 +1,12 @@
 package net.mouazkaadan.inshort.ui.newsPage.model
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import net.mouazkaadan.inshort.base.OnItemClickListener
 import net.mouazkaadan.inshort.databinding.NewsItemListBinding
+import net.mouazkaadan.inshort.utils.loadImage
 
-class NewsAdapter(val listener: OnItemClickListener<Data>) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(val listener: OnNewsClickListener<Data>) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     var list = ArrayList<Data>()
 
@@ -19,7 +17,7 @@ class NewsAdapter(val listener: OnItemClickListener<Data>) : RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val binding = NewsItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NewsViewHolder(parent.context, binding)
+        return NewsViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
@@ -31,7 +29,7 @@ class NewsAdapter(val listener: OnItemClickListener<Data>) : RecyclerView.Adapte
         return list.size
     }
 
-    inner class NewsViewHolder(private val context: Context, private val binding: NewsItemListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class NewsViewHolder(private val binding: NewsItemListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(newsItem: Data) {
             with(binding) {
                 newsTitleTv.text = newsItem.title
@@ -40,9 +38,13 @@ class NewsAdapter(val listener: OnItemClickListener<Data>) : RecyclerView.Adapte
                 newsDateTv.text = "${newsItem.date},"
                 newsTimeTv.text = newsItem.time
 
-                Glide.with(context).load(newsItem.imageUrl).into(newsImageView)
+                newsImageView.loadImage(newsItem.imageUrl)
 
                 shareFab.setOnClickListener {
+                    listener.onShareClick(newsItem)
+                }
+
+                root.setOnClickListener {
                     listener.onItemClick(newsItem)
                 }
             }
