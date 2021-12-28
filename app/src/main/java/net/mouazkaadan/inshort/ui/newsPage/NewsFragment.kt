@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.mouazkaadan.inshort.R
 import net.mouazkaadan.inshort.databinding.NewsFragmentBinding
 import net.mouazkaadan.inshort.ui.newsPage.model.Data
-import net.mouazkaadan.inshort.ui.newsPage.model.NewsAdapter
+import net.mouazkaadan.inshort.ui.newsPage.model.NewsController
 import net.mouazkaadan.inshort.ui.newsPage.model.OnNewsClickListener
 import net.mouazkaadan.inshort.utils.asUri
 import net.mouazkaadan.inshort.utils.showToast
@@ -46,8 +46,8 @@ class NewsFragment : Fragment() {
             viewModel.getNews(category)
         }
 
-        viewBinding.newsRv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        val adapter = NewsAdapter(object : OnNewsClickListener<Data> {
+        viewBinding.newsEpoxyRv.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        val controller = NewsController(object : OnNewsClickListener<Data> {
             override fun onShareClick(item: Data?) {
                 val sendIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
@@ -64,11 +64,11 @@ class NewsFragment : Fragment() {
             }
         })
 
-        viewBinding.newsRv.adapter = adapter
+        viewBinding.newsEpoxyRv.setController(controller)
 
         viewModel.newsResponse.observe(viewLifecycleOwner, {
             viewBinding.progressBar.visibility = View.GONE
-            adapter.setNewsList(it.data)
+            controller.list = it.data as ArrayList<Data>
         })
 
         viewModel.errorMessage.observe(viewLifecycleOwner, {

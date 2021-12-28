@@ -13,15 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/news_rv"
+        <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/news_epoxyRv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/news_item_list" >
 
-        </androidx.recyclerview.widget.RecyclerView>
+        </com.airbnb.epoxy.EpoxyRecyclerView>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -31,6 +31,6 @@
             android:layout_marginTop="116dp"
             android:layout_marginEnd="164dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/news_rv" />
+            app:layout_constraintTop_toTopOf="@+id/news_epoxyRv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
