@@ -1,12 +1,13 @@
-package net.mouazkaadan.inshort.ui.newsPage.model
+package net.mouazkaadan.inshort.data.model
 
 data class NewsResponseModel(
     val category: String,
-    val `data`: List<Data>,
+    val `data`: List<NewsItem>,
+    val error: String? = null,
     val success: Boolean
 )
 
-data class Data(
+data class NewsItem(
     val author: String,
     val content: String,
     val date: String,

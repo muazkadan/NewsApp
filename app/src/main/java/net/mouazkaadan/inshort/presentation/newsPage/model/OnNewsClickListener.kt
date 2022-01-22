@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.ui.newsPage.model
+package net.mouazkaadan.inshort.presentation.newsPage.model
 
 interface OnNewsClickListener<T> {
     fun onShareClick(item: T?)

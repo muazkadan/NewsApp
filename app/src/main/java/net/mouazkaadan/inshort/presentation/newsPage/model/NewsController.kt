@@ -1,15 +1,16 @@
-package net.mouazkaadan.inshort.ui.newsPage.model
+package net.mouazkaadan.inshort.presentation.newsPage.model
 
 import com.airbnb.epoxy.EpoxyController
 import net.mouazkaadan.inshort.R
-import net.mouazkaadan.inshort.base.epoxy.ViewBindingKotlinModel
+import net.mouazkaadan.inshort.data.model.NewsItem
 import net.mouazkaadan.inshort.databinding.NewsItemListBinding
-import net.mouazkaadan.inshort.utils.loadImage
+import net.mouazkaadan.inshort.utils.epoxy.ViewBindingKotlinModel
+import net.mouazkaadan.inshort.utils.extensions.loadImage
 
-class NewsController(private val listener: OnNewsClickListener<Data>) :
+class NewsController(private val listener: OnNewsClickListener<NewsItem>) :
     EpoxyController() {
 
-    var list = ArrayList<Data>()
+    var list = emptyList<NewsItem>()
         set(value) {
             field = value
             requestModelBuild()
@@ -24,8 +25,8 @@ class NewsController(private val listener: OnNewsClickListener<Data>) :
     }
 
     data class NewsEpoxyModel(
-        val newsItem: Data,
-        val listener: OnNewsClickListener<Data>
+        val newsItem: NewsItem,
+        val listener: OnNewsClickListener<NewsItem>
     ) : ViewBindingKotlinModel<NewsItemListBinding>(R.layout.news_item_list) {
 
         override fun NewsItemListBinding.bind() {

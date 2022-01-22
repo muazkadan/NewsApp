@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.ui.categories.model
+package net.mouazkaadan.inshort.presentation.categories.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

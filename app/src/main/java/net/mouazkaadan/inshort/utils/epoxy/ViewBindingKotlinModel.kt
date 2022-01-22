@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.base.epoxy
+package net.mouazkaadan.inshort.utils.epoxy
 
 import android.view.View
 import androidx.annotation.LayoutRes

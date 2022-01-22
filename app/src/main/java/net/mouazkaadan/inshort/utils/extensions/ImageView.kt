@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.utils
+package net.mouazkaadan.inshort.utils.extensions
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide

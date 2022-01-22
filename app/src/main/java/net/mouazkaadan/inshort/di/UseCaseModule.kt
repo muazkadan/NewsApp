@@ -4,19 +4,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import net.mouazkaadan.inshort.data.network.Api
 import net.mouazkaadan.inshort.data.repository.NewsRepository
+import net.mouazkaadan.inshort.domain.useacase.GetNewsUseCase
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object RepositoryModule {
+object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideNewsRepository(
-        api: Api
-    ): NewsRepository = NewsRepository(
-        api
-    )
+    fun provideGetNewsUseCase(
+        repository: NewsRepository
+    ): GetNewsUseCase = GetNewsUseCase(repository)
 }

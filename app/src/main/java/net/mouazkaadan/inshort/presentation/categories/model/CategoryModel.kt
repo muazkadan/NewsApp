@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.ui.categories.model
+package net.mouazkaadan.inshort.presentation.categories.model
 
 data class CategoryModel(
     val name: String,

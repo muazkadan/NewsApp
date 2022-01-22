@@ -1,6 +1,7 @@
 package net.mouazkaadan.inshort.utils
 
-sealed class Resource<T>(val data: T?, val message: String?) {
-    class Success<T>(data: T) : Resource<T>(data, null)
-    class Error<T>(message: String) : Resource<T>(null, message)
+sealed class Resource<out T> {
+    class Success<T>(val data: T?) : Resource<T>()
+    class Error(val message: String?) : Resource<Nothing>()
+    object Loading : Resource<Nothing>()
 }

@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.base
+package net.mouazkaadan.inshort
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

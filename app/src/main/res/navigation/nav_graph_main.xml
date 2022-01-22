@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/categoriesFragment"
-        android:name="net.mouazkaadan.inshort.ui.categories.CategoriesFragment"
+        android:name="net.mouazkaadan.inshort.presentation.categories.CategoriesFragment"
         android:label="categories_fragment"
         tools:layout="@layout/categories_fragment" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/newsFragment"
-        android:name="net.mouazkaadan.inshort.ui.newsPage.NewsFragment"
+        android:name="net.mouazkaadan.inshort.presentation.newsPage.NewsFragment"
         android:label="news_fragment"
         tools:layout="@layout/news_fragment">
 
