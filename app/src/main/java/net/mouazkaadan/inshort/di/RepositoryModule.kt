@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import net.mouazkaadan.inshort.data.local.NewsItemDatabase
 import net.mouazkaadan.inshort.data.network.Api
 import net.mouazkaadan.inshort.data.repository.NewsRepository
 import javax.inject.Singleton
@@ -15,8 +16,10 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideNewsRepository(
-        api: Api
+        api: Api,
+        db: NewsItemDatabase
     ): NewsRepository = NewsRepository(
-        api
+        api,
+        db.dao
     )
 }
