@@ -7,7 +7,7 @@ import net.mouazkaadan.inshort.databinding.NewsItemListBinding
 import net.mouazkaadan.inshort.utils.epoxy.ViewBindingKotlinModel
 import net.mouazkaadan.inshort.utils.extensions.loadImage
 
-class NewsController(private val listener: OnNewsClickListener<NewsItem>) :
+class NewsController(private val listener: OnNewsClickListener) :
     EpoxyController() {
 
     var list = emptyList<NewsItem>()
@@ -26,7 +26,7 @@ class NewsController(private val listener: OnNewsClickListener<NewsItem>) :
 
     data class NewsEpoxyModel(
         val newsItem: NewsItem,
-        val listener: OnNewsClickListener<NewsItem>
+        val listener: OnNewsClickListener
     ) : ViewBindingKotlinModel<NewsItemListBinding>(R.layout.news_item_list) {
 
         override fun NewsItemListBinding.bind() {
@@ -46,5 +46,10 @@ class NewsController(private val listener: OnNewsClickListener<NewsItem>) :
                 listener.onItemClick(newsItem)
             }
         }
+    }
+
+    interface OnNewsClickListener {
+        fun onShareClick(item: NewsItem)
+        fun onItemClick(item: NewsItem)
     }
 }

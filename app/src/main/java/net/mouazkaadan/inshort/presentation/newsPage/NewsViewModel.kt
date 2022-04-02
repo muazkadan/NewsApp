@@ -6,8 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
+import net.mouazkaadan.inshort.data.model.NewsItem
 import net.mouazkaadan.inshort.domain.useacase.GetNewsUseCase
-import net.mouazkaadan.inshort.presentation.newsPage.model.NewsUiState
 import net.mouazkaadan.inshort.utils.Resource
 import javax.inject.Inject
 
@@ -25,10 +25,10 @@ class NewsViewModel @Inject constructor(
             response.collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _uiState.emit(NewsUiState(newsItems = result.data ?: emptyList()))
+                        _uiState.emit(NewsUiState(newsItems = result.data.orEmpty()))
                     }
                     is Resource.Error -> {
-                        _uiState.emit(NewsUiState(errorMessage = result.message ?: "Unknown error"))
+                        _uiState.emit(NewsUiState(errorMessage = result.message.orEmpty()))
                     }
                     is Resource.Loading -> {
                         _uiState.emit(NewsUiState(isLoading = true))
@@ -37,4 +37,10 @@ class NewsViewModel @Inject constructor(
             }
         }
     }
+
+    data class NewsUiState(
+        val newsItems: List<NewsItem> = emptyList(),
+        val isLoading: Boolean = false,
+        val errorMessage: String? = null
+    )
 }
