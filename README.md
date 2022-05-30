@@ -10,3 +10,6 @@ I used [Unofficial InShorts News API](https://github.com/cyberboysumanjay/Inshor
 
 <img src="https://github.com/Mouazkaadan/NewsAppExample/blob/master/data/Screenshot_1.png" width="250" height="444" />
 
+## MAD Score
+![summary](https://github.com/Mouazkaadan/NewsAppExample/blob/master/data/summary.png)
+![jetpack](https://github.com/Mouazkaadan/NewsAppExample/blob/master/data/jetpack.png)
