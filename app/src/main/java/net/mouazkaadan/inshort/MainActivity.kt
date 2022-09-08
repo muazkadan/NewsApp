@@ -1,18 +1,31 @@
 package net.mouazkaadan.inshort
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.ui.unit.dp
 import dagger.hilt.android.AndroidEntryPoint
-import net.mouazkaadan.inshort.databinding.ActivityMainBinding
-import net.mouazkaadan.inshort.utils.viewBinding
+import net.mouazkaadan.inshort.data.local.Categories.categoriesList
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
-    private val binding by viewBinding(ActivityMainBinding::inflate)
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContent {
+            val gridState = rememberLazyGridState()
+            LazyVerticalGrid(
+                state = gridState,
+                columns = GridCells.Adaptive(140.dp)
+            ) {
+                items(categoriesList) { category ->
+                    CategoryCard(category = category)
+                }
+            }
+        }
     }
 }

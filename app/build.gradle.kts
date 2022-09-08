@@ -37,6 +37,10 @@ android {
         }
         buildFeatures {
             viewBinding = true
+            compose = true
+        }
+        composeOptions {
+            kotlinCompilerExtensionVersion = rootProject.extra["compose_version"] as String
         }
     }
 }
@@ -91,4 +95,12 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:2.4.3")
+
+    // compose
+    val composeVersion = rootProject.extra["compose_version"] as String
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.material:material:$composeVersion")
+    implementation("androidx.compose.material3:material3:1.0.0-beta01")
+    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
+    implementation("androidx.activity:activity-compose:$composeVersion")
 }
