@@ -1,10 +1,11 @@
 package net.mouazkaadan.inshort.presentation.newsPage
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import net.mouazkaadan.inshort.data.model.NewsItem
 import net.mouazkaadan.inshort.domain.useacase.GetNewsUseCase
@@ -16,8 +17,8 @@ class NewsViewModel @Inject constructor(
     private val getNewsUseCase: GetNewsUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableSharedFlow<NewsUiState>()
-    val uiState: SharedFlow<NewsUiState> = _uiState
+    var uiState by mutableStateOf(NewsUiState())
+        private set
 
     fun getNews(category: String) {
         viewModelScope.launch {
@@ -25,13 +26,25 @@ class NewsViewModel @Inject constructor(
             response.collect { result ->
                 when (result) {
                     is Resource.Success -> {
-                        _uiState.emit(NewsUiState(newsItems = result.data.orEmpty()))
+                        uiState = uiState.copy(
+                            newsItems = result.data.orEmpty(),
+                            isLoading = false,
+                            errorMessage = null
+                        )
                     }
                     is Resource.Error -> {
-                        _uiState.emit(NewsUiState(errorMessage = result.message.orEmpty()))
+                        uiState = uiState.copy(
+                            newsItems = emptyList(),
+                            isLoading = false,
+                            errorMessage = result.message.orEmpty()
+                        )
                     }
                     is Resource.Loading -> {
-                        _uiState.emit(NewsUiState(isLoading = true))
+                        uiState = uiState.copy(
+                            newsItems = emptyList(),
+                            isLoading = true,
+                            errorMessage = null
+                        )
                     }
                 }
             }

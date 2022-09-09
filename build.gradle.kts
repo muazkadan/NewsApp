@@ -13,7 +13,7 @@ buildscript {
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.42")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        val navVersion = "2.4.1"
+        val navVersion = "2.5.2"
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion")
     }
 }

@@ -1,13 +1,14 @@
 package net.mouazkaadan.inshort.data.local
 
-import net.mouazkaadan.inshort.presentation.categories.model.CategoryModel
+import androidx.compose.runtime.mutableStateListOf
+import net.mouazkaadan.inshort.data.model.CategoryModel
 
 /**
  * @author muaz
  * Created on 9/8/2022.
  */
 object Categories {
-    val categoriesList: List<CategoryModel> = listOf(
+    val categoriesList = mutableStateListOf(
         CategoryModel("All", "all"),
         CategoryModel("National", "national"),
         CategoryModel("Business", "business"),
