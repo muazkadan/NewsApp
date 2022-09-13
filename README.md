@@ -1,4 +1,4 @@
-# Android App Sample (Navigation + ViewModel + LiveData + Kotlin + Retrofit + Dependency Injection (Hilt) + Coroutine) - News App
+# Android App Sample (Compose + Navigation + ViewModel + Kotlin + Retrofit + Dependency Injection (Hilt) + Coroutine + Flow + Room) - News App
 
 ### Project Description
 In this project I developed a news Android Application with MVVM architecture. The UI is very simple as you can see in the below screenshot. There is multiple categories that the user can choose from like business, sports, technology etc... 
