@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -52,7 +53,7 @@ import java.util.Locale
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsDetailsScreen(viewModel: NewsViewModel, navController: NavController, category: String) {
+fun NewsDetailsScreen(viewModel: NewsViewModel, navController: NavController) {
     val context = LocalContext.current
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
@@ -62,10 +63,17 @@ fun NewsDetailsScreen(viewModel: NewsViewModel, navController: NavController, ca
 
     viewModel.updateScrollPosition(listState.firstVisibleItemIndex)
 
+    val categoryName = viewModel.uiState.categoryName.orEmpty()
+
     Scaffold(topBar = {
-        NewsTopAppBar(category, scrollBehavior = scrollBehavior, scrollUpState = scrollUpState, onBack = {
-            navController.popBackStack()
-        })
+        NewsTopAppBar(
+            title = categoryName,
+            scrollBehavior = scrollBehavior,
+            scrollUpState = scrollUpState,
+            onBack = {
+                navController.popBackStack()
+            }
+        )
     }) {
         if (viewModel.uiState.isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -175,4 +183,21 @@ fun NewsCard(newsItem: NewsItem, modifier: Modifier = Modifier) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun NewsCardPreview() {
+    NewsCard(
+        newsItem = NewsItem(
+            author = "Test Author",
+            content = "Test content test content",
+            date = "15 Sep 2022",
+            imageUrl = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png",
+            readMoreUrl = "https://github.com/Mouazkaadan/NewsApp/tree/master/app/src/main/java/net/mouazkaadan/inshort",
+            time = "Thursday, 02:05 pm",
+            title = "Test Title",
+            url = "https://github.com/Mouazkaadan/NewsApp/tree/master/app/src/main/java/net/mouazkaadan/inshort"
+        )
+    )
 }

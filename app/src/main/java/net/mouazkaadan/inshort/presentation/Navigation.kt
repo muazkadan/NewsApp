@@ -7,10 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import net.mouazkaadan.inshort.data.local.Categories
 import net.mouazkaadan.inshort.presentation.categories.CategoriesScreen
 import net.mouazkaadan.inshort.presentation.newsPage.NewsDetailsScreen
-import net.mouazkaadan.inshort.presentation.newsPage.NewsViewModel
 
 /**
  * @author muaz
@@ -30,13 +28,8 @@ fun Navigation() {
                     type = NavType.StringType
                 }
             )
-        ) { entry ->
-            val viewModel: NewsViewModel = hiltViewModel()
-            val category = entry.arguments?.getString("category") ?: Categories.categoriesList.first().value
-            viewModel.getNews(
-                category
-            )
-            NewsDetailsScreen(viewModel, navController, category)
+        ) {
+            NewsDetailsScreen(hiltViewModel(), navController)
         }
     }
 }

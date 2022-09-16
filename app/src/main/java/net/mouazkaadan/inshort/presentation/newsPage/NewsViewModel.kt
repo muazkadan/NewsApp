@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,19 +17,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewsViewModel @Inject constructor(
-    private val getNewsUseCase: GetNewsUseCase
+    private val getNewsUseCase: GetNewsUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    init {
+        savedStateHandle.get<String>("category")?.let { category ->
+            getNews(category)
+        }
+    }
 
     var uiState by mutableStateOf(NewsUiState())
         private set
 
-    fun getNews(category: String) {
+    private fun getNews(category: String) {
         viewModelScope.launch {
             val response = getNewsUseCase.invoke(category = category)
             response.collect { result ->
                 when (result) {
                     is Resource.Success -> {
                         uiState = uiState.copy(
+                            categoryName = category,
                             newsItems = result.data.orEmpty(),
                             isLoading = false,
                             errorMessage = null
@@ -43,6 +52,7 @@ class NewsViewModel @Inject constructor(
                     }
                     is Resource.Loading -> {
                         uiState = uiState.copy(
+                            categoryName = category,
                             newsItems = emptyList(),
                             isLoading = true,
                             errorMessage = null
@@ -67,6 +77,7 @@ class NewsViewModel @Inject constructor(
     }
 
     data class NewsUiState(
+        val categoryName: String? = null,
         val newsItems: List<NewsItem> = emptyList(),
         val isLoading: Boolean = false,
         val errorMessage: String? = null
