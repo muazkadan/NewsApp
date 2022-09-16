@@ -73,10 +73,8 @@ fun CategoriesScreen(navController: NavController) {
 @Composable
 private fun ShortTopAppBar(scrollBehavior: TopAppBarScrollBehavior) {
     CenterAlignedTopAppBar(
-        modifier = Modifier.height(32.dp),
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            scrolledContainerColor = MaterialTheme.colorScheme.primary
-        ),
+        modifier = Modifier.height(48.dp),
+
         title = {
             Box(
                 modifier = Modifier.fillMaxSize(),

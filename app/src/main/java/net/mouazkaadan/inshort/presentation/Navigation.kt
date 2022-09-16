@@ -32,10 +32,11 @@ fun Navigation() {
             )
         ) { entry ->
             val viewModel: NewsViewModel = hiltViewModel()
+            val category = entry.arguments?.getString("category") ?: Categories.categoriesList.first().value
             viewModel.getNews(
-                entry.arguments?.getString("category") ?: Categories.categoriesList.first().value,
+                category
             )
-            NewsDetailsScreen(viewModel)
+            NewsDetailsScreen(viewModel, navController, category)
         }
     }
 }

@@ -47,7 +47,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.8.0")
+    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
@@ -82,10 +82,12 @@ dependencies {
     val composeVersion = rootProject.extra["compose_version"] as String
     implementation("androidx.compose.ui:ui:$composeVersion")
     implementation("androidx.compose.material:material:$composeVersion")
-    implementation("androidx.compose.material3:material3:1.0.0-beta01")
+    implementation("androidx.compose.material3:material3:1.0.0-beta02")
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.activity:activity-compose:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+
+    implementation("androidx.compose.runtime:runtime-livedata:$composeVersion")
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.2.1")
