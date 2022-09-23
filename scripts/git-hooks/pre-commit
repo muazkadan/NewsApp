@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Running ktlint check..."
+
+./gradlew app:ktlintCheck --daemon
+
+STATUS=$?
+
+# return 1 exit code if running checks fails 
+[ $STATUS -ne 0 ] && exit 1 
+exit 0

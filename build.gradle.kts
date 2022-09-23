@@ -22,6 +22,17 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint").version("10.2.0")
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+tasks {
+    register("clean", Delete::class) {
+        delete(rootProject.buildDir)
+    }
+    register("installGitHook", Copy::class) {
+        from(File(rootProject.rootDir, "scripts/git-hooks/pre-commit"))
+        into(File(rootProject.rootDir, ".git/hooks"))
+        fileMode = 777
+    }
+    getByPath(":app:preBuild").dependsOn(":installGitHook")
 }
+
+
+
