@@ -64,7 +64,7 @@ fun NewsDetailsScreen(viewModel: NewsViewModel, navController: NavController) {
     viewModel.updateScrollPosition(listState.firstVisibleItemIndex)
 
     val categoryName = viewModel.uiState.categoryName.orEmpty()
-
+    println("Hi you")
     Scaffold(topBar = {
         NewsTopAppBar(
             title = categoryName,
