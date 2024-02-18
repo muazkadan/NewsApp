@@ -79,7 +79,6 @@ dependencies {
     // compose
     implementation(platform(libs.composeBom))
     implementation(libs.composeUi)
-    implementation(libs.composeMaterial)
     implementation(libs.composeMaterial3)
     implementation(libs.composeUiToolingPreview)
     implementation(libs.activityCompose)
