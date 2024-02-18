@@ -82,7 +82,7 @@ private fun ShortTopAppBar(scrollBehavior: TopAppBarScrollBehavior) {
             ) {
                 Text(
                     text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelLarge
                 )
             }
         },

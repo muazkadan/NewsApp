@@ -19,7 +19,9 @@ object LocalModule {
         app: Application
     ): NewsItemDatabase {
         return Room.databaseBuilder(
-            app, NewsItemDatabase::class.java, "news_db"
+            app,
+            NewsItemDatabase::class.java,
+            "news_db"
         )
             .fallbackToDestructiveMigration()
             .build()

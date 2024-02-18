@@ -21,6 +21,6 @@ object Categories {
         CategoryModel("Miscellaneous", "miscellaneous"),
         CategoryModel("Hatke", "hatke"),
         CategoryModel("Science", "science"),
-        CategoryModel("Automobile", "automobile"),
+        CategoryModel("Automobile", "automobile")
     )
 }

@@ -4,7 +4,6 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("org.jlleitschuh.gradle.ktlint")
-    id("androidx.navigation.safeargs")
 }
 
 android {
@@ -43,6 +42,7 @@ android {
             kotlinCompilerExtensionVersion = rootProject.extra["compose_version"] as String
         }
     }
+    namespace = "net.mouazkaadan.inshort"
 }
 
 dependencies {

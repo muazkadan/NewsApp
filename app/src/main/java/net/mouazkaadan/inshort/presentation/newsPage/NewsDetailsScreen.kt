@@ -103,7 +103,6 @@ private fun NewsTopAppBar(
     scrollUpState: State<Boolean?>,
     onBack: () -> Unit
 ) {
-
     val height by animateDpAsState(if (scrollUpState.value == true) 0.dp else 48.dp)
 
     CenterAlignedTopAppBar(
@@ -126,7 +125,7 @@ private fun NewsTopAppBar(
             ) {
                 androidx.compose.material3.Text(
                     text = title.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() },
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelLarge
                 )
             }
         },
@@ -164,7 +163,8 @@ fun NewsCard(newsItem: NewsItem, modifier: Modifier = Modifier) {
                     append(", ")
                     append(newsItem.time)
                 },
-                modifier = Modifier.padding(top = 6.dp), fontSize = 10.sp
+                modifier = Modifier.padding(top = 6.dp),
+                fontSize = 10.sp
             )
 
             SubcomposeAsyncImage(
