@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.presentation
+package net.mouazkaadan.inshort.presentation.navigation
 
 /**
  * @author muaz

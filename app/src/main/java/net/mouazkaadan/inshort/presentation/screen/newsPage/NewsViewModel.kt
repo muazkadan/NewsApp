@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.presentation.newsPage
+package net.mouazkaadan.inshort.presentation.screen.newsPage
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,34 +30,33 @@ class NewsViewModel @Inject constructor(
     var uiState by mutableStateOf(NewsUiState())
         private set
 
-    private fun getNews(category: String) {
-        viewModelScope.launch {
-            val response = getNewsUseCase.invoke(category = category)
-            response.collect { result ->
-                when (result) {
-                    is Resource.Success -> {
-                        uiState = uiState.copy(
-                            categoryName = category,
-                            newsItems = result.data.orEmpty(),
-                            isLoading = false,
-                            errorMessage = null
-                        )
-                    }
-                    is Resource.Error -> {
-                        uiState = uiState.copy(
-                            newsItems = emptyList(),
-                            isLoading = false,
-                            errorMessage = result.message.orEmpty()
-                        )
-                    }
-                    is Resource.Loading -> {
-                        uiState = uiState.copy(
-                            categoryName = category,
-                            newsItems = emptyList(),
-                            isLoading = true,
-                            errorMessage = null
-                        )
-                    }
+    private fun getNews(category: String) = viewModelScope.launch {
+        getNewsUseCase.invoke(category = category).collect { result ->
+            when (result) {
+                is Resource.Success -> {
+                    uiState = uiState.copy(
+                        categoryName = category,
+                        newsItems = result.data,
+                        isLoading = false,
+                        errorMessage = null
+                    )
+                }
+
+                is Resource.Error -> {
+                    uiState = uiState.copy(
+                        newsItems = emptyList(),
+                        isLoading = false,
+                        errorMessage = result.message
+                    )
+                }
+
+                is Resource.Loading -> {
+                    uiState = uiState.copy(
+                        categoryName = category,
+                        newsItems = emptyList(),
+                        isLoading = true,
+                        errorMessage = null
+                    )
                 }
             }
         }

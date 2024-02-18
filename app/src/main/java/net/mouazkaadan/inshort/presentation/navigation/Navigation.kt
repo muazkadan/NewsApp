@@ -1,4 +1,4 @@
-package net.mouazkaadan.inshort.presentation
+package net.mouazkaadan.inshort.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import net.mouazkaadan.inshort.presentation.categories.CategoriesScreen
-import net.mouazkaadan.inshort.presentation.newsPage.NewsDetailsScreen
+import net.mouazkaadan.inshort.presentation.screen.categories.CategoriesScreen
+import net.mouazkaadan.inshort.presentation.screen.newsPage.NewsDetailsScreen
 
 /**
  * @author muaz
