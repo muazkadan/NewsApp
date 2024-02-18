@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("com.google.devtools.ksp")
-    id("dagger.hilt.android.plugin")
-    id("org.jlleitschuh.gradle.ktlint")
+    alias(libs.plugins.com.android.application)
+    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.org.jillestchuh.ktlint)
+    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -46,48 +46,47 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(libs.coreKtx)
+    implementation(libs.lifecycleViewmodelKtx)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidTestExtJunit)
+    androidTestImplementation(libs.androidTestEspressoCore)
 
     // hilt
-    implementation("com.google.dagger:hilt-android:2.50")
-    ksp("com.google.dagger:hilt-compiler:2.50")
+    implementation(libs.hiltAndroid)
+    ksp(libs.hiltCompiler)
 
     // Navigation
-    val navVersion = "2.7.7"
-    implementation("androidx.navigation:navigation-compose:$navVersion")
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation(libs.navigationCompose)
+    implementation(libs.hiltNavigationCompose)
 
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+    implementation(libs.retrofit)
+    implementation(libs.converterGson)
+    implementation(libs.loggingInterceptor)
 
     // coroutine
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    implementation(libs.kotlinxCoroutinesAndroid)
+    implementation(libs.kotlinxCoroutinesCore)
 
     // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation(libs.roomRuntime)
+    ksp(libs.roomCompiler)
 
     // Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.roomKtx)
 
     // compose
-    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.material:material")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.activity:activity-compose")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation(platform(libs.composeBom))
+    implementation(libs.composeUi)
+    implementation(libs.composeMaterial)
+    implementation(libs.composeMaterial3)
+    implementation(libs.composeUiToolingPreview)
+    implementation(libs.activityCompose)
+    debugImplementation(libs.composeUiTooling)
 
-    implementation("androidx.compose.runtime:runtime-livedata")
+    implementation(libs.runtimeLivedata)
 
     // Coil
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    implementation(libs.coilCompose)
 }
