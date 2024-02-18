@@ -1,10 +1,35 @@
 #!/bin/bash
-echo "Running ktlint check..."
 
-./gradlew app:ktlintCheck --daemon
+echo "*******************************"
+echo   "Running git pre-commit hook"
+echo "*******************************"
+echo ""
+echo "Running ktlint check..."
+./gradlew ktlintCheck --daemon
 
 STATUS=$?
 
-# return 1 exit code if running checks fails 
-[ $STATUS -ne 0 ] && exit 1 
+# if ktlint check fails, try to fix formatting
+if [ $STATUS -ne 0 ]; then
+    echo "ktlint check failed, running ktlint format..."
+    ./gradlew ktlintFormat --daemon
+    STATUS=$?
+    if [ $STATUS -eq 0 ]; then
+        git add .
+    else
+        echo "ktlint format failed"
+        exit 1
+    fi
+fi
+
+# run unit tests
+echo "Running unit tests..."
+./gradlew testDebugUnitTest --daemon
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+    echo "Unit tests failed"
+    exit 1
+fi
+
 exit 0
