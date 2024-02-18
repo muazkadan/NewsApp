@@ -1,16 +1,15 @@
 package net.mouazkaadan.inshort.presentation.screen.newsPage
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import net.mouazkaadan.inshort.data.model.NewsItem
 import net.mouazkaadan.inshort.domain.useacase.GetNewsUseCase
 import net.mouazkaadan.inshort.utils.Resource
 import javax.inject.Inject
@@ -21,64 +20,67 @@ class NewsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    private val _uiEvent = Channel<UIEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
+    private val _uiState = MutableStateFlow(NewsScreenState())
+    val uiState = _uiState.asStateFlow()
+
     init {
         savedStateHandle.get<String>("category")?.let { category ->
             getNews(category)
         }
     }
 
-    var uiState by mutableStateOf(NewsUiState())
-        private set
+    private var lastScrollIndex = 0
+    fun onEvent(event: NewsDetailsScreenEvent) {
+        when (event) {
+            is NewsDetailsScreenEvent.UpdateScrollPosition -> {
+                if (event.position == lastScrollIndex) return
+                _uiState.update { state ->
+                    state.copy(
+                        isScrollUp = event.position > lastScrollIndex
+                    )
+                }
+                lastScrollIndex = event.position
+            }
+        }
+    }
 
     private fun getNews(category: String) = viewModelScope.launch {
         getNewsUseCase.invoke(category = category).collect { result ->
             when (result) {
                 is Resource.Success -> {
-                    uiState = uiState.copy(
-                        categoryName = category,
-                        newsItems = result.data,
-                        isLoading = false,
-                        errorMessage = null
-                    )
-                }
-
-                is Resource.Error -> {
-                    uiState = uiState.copy(
-                        newsItems = emptyList(),
-                        isLoading = false,
-                        errorMessage = result.message
-                    )
+                    _uiState.update { uiState ->
+                        uiState.copy(
+                            categoryName = category,
+                            newsItems = result.data,
+                            isLoading = false
+                        )
+                    }
                 }
 
                 is Resource.Loading -> {
-                    uiState = uiState.copy(
-                        categoryName = category,
-                        newsItems = emptyList(),
-                        isLoading = true,
-                        errorMessage = null
-                    )
+                    _uiState.update { uiState ->
+                        uiState.copy(
+                            isLoading = true
+                        )
+                    }
+                }
+
+                is Resource.Error -> {
+                    _uiState.update { uiState ->
+                        uiState.copy(
+                            isLoading = false
+                        )
+                    }
+                    _uiEvent.trySend(UIEvent.ShowError(message = result.message))
                 }
             }
         }
     }
 
-    private var lastScrollIndex = 0
-
-    private val _scrollUp = MutableLiveData(false)
-    val scrollUp: LiveData<Boolean>
-        get() = _scrollUp
-
-    fun updateScrollPosition(newScrollIndex: Int) {
-        if (newScrollIndex == lastScrollIndex) return
-
-        _scrollUp.value = newScrollIndex > lastScrollIndex
-        lastScrollIndex = newScrollIndex
+    sealed class UIEvent {
+        data class ShowError(val message: String) : UIEvent()
     }
-
-    data class NewsUiState(
-        val categoryName: String? = null,
-        val newsItems: List<NewsItem> = emptyList(),
-        val isLoading: Boolean = false,
-        val errorMessage: String? = null
-    )
 }

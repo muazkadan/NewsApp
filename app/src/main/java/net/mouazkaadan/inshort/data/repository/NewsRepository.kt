@@ -25,9 +25,7 @@ class NewsRepository @Inject constructor(
 ) : NewsDataSource {
 
     override fun getNews(category: String): Flow<Resource<List<NewsItem>>> = flow {
-        val localNews = dao.getNewsItems(category).map { mapper.map(it) }
-        emit(Resource.Loading(data = localNews))
-
+        emit(Resource.Loading)
         try {
             val response = api.getNews(category = category)
             val result = response.body()

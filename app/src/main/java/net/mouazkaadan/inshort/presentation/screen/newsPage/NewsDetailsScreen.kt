@@ -12,16 +12,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import net.mouazkaadan.inshort.presentation.component.NewsCard
 import net.mouazkaadan.inshort.presentation.component.NewsTopAppBar
+import net.mouazkaadan.inshort.utils.ObserveAsEvents
 import net.mouazkaadan.inshort.utils.extensions.showToast
 
 /**
@@ -30,45 +34,65 @@ import net.mouazkaadan.inshort.utils.extensions.showToast
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewsDetailsScreen(viewModel: NewsViewModel, navController: NavController) {
-    val context = LocalContext.current
+fun NewsDetailsContent(
+    navController: NavController,
+    state: NewsScreenState,
+    onEvent: (NewsDetailsScreenEvent) -> Unit
+) {
     val topAppBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(topAppBarState)
     val listState = rememberLazyListState()
-
-    val scrollUpState by viewModel.scrollUp.observeAsState()
     val firstVisibleItemIndex by remember { derivedStateOf { listState.firstVisibleItemIndex } }
 
-    viewModel.updateScrollPosition(firstVisibleItemIndex)
-
-    val categoryName = viewModel.uiState.categoryName.orEmpty()
+    LaunchedEffect(key1 = firstVisibleItemIndex) {
+        onEvent(NewsDetailsScreenEvent.UpdateScrollPosition(firstVisibleItemIndex))
+    }
 
     Scaffold(topBar = {
         NewsTopAppBar(
-            title = categoryName,
+            title = state.categoryName.orEmpty(),
             scrollBehavior = scrollBehavior,
-            scrollUpState = scrollUpState == true,
+            scrollUpState = state.isScrollUp,
             onBack = {
                 navController.popBackStack()
             }
         )
     }) {
-        if (viewModel.uiState.isLoading) {
+        if (state.isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator()
             }
-        }
-        viewModel.uiState.errorMessage?.let { errorMessage ->
-            context.showToast(errorMessage)
         }
         LazyColumn(
             modifier = Modifier
                 .padding(it),
             state = listState
         ) {
-            items(viewModel.uiState.newsItems) { news ->
+            items(state.newsItems) { news ->
                 NewsCard(newsItem = news)
             }
         }
     }
+}
+
+@Composable
+fun NewsDetailsScreen(viewModel: NewsViewModel, navController: NavController) {
+    val context = LocalContext.current
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    ObserveAsEvents(flow = viewModel.uiEvent) { uiEvent ->
+        when (uiEvent) {
+            is NewsViewModel.UIEvent.ShowError -> {
+                context.showToast(uiEvent.message)
+            }
+        }
+    }
+
+    NewsDetailsContent(navController = navController, state = state, onEvent = viewModel::onEvent)
+}
+
+@Preview
+@Composable
+fun NewsDetailsScreenPreview() {
+    NewsDetailsContent(navController = rememberNavController(), state = NewsScreenState(), onEvent = {})
 }

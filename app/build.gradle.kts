@@ -48,6 +48,7 @@ dependencies {
 
     implementation(libs.coreKtx)
     implementation(libs.lifecycleViewmodelKtx)
+    implementation(libs.lifecycle.runtime.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidTestExtJunit)
     androidTestImplementation(libs.androidTestEspressoCore)
