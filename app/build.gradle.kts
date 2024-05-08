@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.org.jillestchuh.ktlint)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -36,9 +37,6 @@ android {
         }
         buildFeatures {
             compose = true
-        }
-        composeOptions {
-            kotlinCompilerExtensionVersion = "1.5.9"
         }
     }
     namespace = "net.mouazkaadan.inshort"
